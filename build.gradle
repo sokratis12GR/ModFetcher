@@ -1,0 +1,35 @@
+buildscript {
+
+    repositories {
+
+        jcenter()
+    }
+
+    dependencies {
+
+        classpath 'com.github.rodionmoiseev.gradle.plugins:idea-utils:0.2'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea-utils'
+apply plugin: 'maven'
+
+group 'ModFetcher'
+
+repositories {
+
+    jcenter()
+
+    maven {
+
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compile 'com.github.austinv11:Discord4j:2.6.1'
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.zxing:core:3.2.1'
+}
