@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.austinv11:Discord4j:2.6.1'
+    compile 'com.github.austinv11:Discord4j:42fb214'
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.zxing:core:3.2.1'
 }

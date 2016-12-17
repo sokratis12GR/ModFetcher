@@ -2,6 +2,7 @@ package com.sokratis12gr.modfetcher.util;
 
 import com.sokratis12gr.modfetcher.ModFetcher;
 import org.apache.commons.io.FileUtils;
+import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
@@ -11,14 +12,17 @@ import sx.blah.discord.util.RateLimitException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 public class Utilities {
 
     public static final String SEPERATOR = System.lineSeparator();
 
+    private static Random random = new Random();
+
     public static File downloadFile(String site) {
 
-        final File file = new File("Image.png");
+        final File file = new File("Image" + random.nextInt() + ".png");
 
         try {
 
@@ -170,6 +174,28 @@ public class Utilities {
 
             else
                 e.printStackTrace();
+        }
+    }
+
+    public static void sendMessage (IChannel channel, String message, EmbedObject object) {
+
+        if (message.length() > 2000 || object.description.length() > 2000) {
+
+            Utilities.sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars! Embedded: " + object.description.length() + "/2000!");
+            System.out.println(message);
+            System.out.println(object.description);
+            return;
+        }
+
+        try {
+
+            channel.sendMessage(message, object, false);
+            Thread.sleep(1000);
+        }
+
+        catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
+
+            e.printStackTrace();
         }
     }
 }

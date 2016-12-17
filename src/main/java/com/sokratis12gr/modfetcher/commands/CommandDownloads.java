@@ -1,7 +1,9 @@
 package com.sokratis12gr.modfetcher.commands;
 
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.EmbedBuilder;
 
+import java.awt.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -10,30 +12,36 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.sokratis12gr.modfetcher.util.Utilities.*;
+import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 import static java.lang.String.format;
 
 public class CommandDownloads implements Command {
 
-    private String mod;
-
-    private String name;
-
-    public CommandDownloads(String modid, String modName) {
-        mod = modid;
-        name = modName;
-    }
+    private String project;
 
     @Override
     public void processCommand(IMessage message, String[] args) {
-        sendMessage(message.getChannel(), makeBold(name) + ": " + makeItalic(format("https://minecraft.curseforge.com/projects/%s", mod)) + "\n" + makeBold("Downloads") + ": " + makeItalic(getDownloads()));
+        final EmbedBuilder embed = new EmbedBuilder();
+        embed.withAuthorName(message.getAuthor().getName());
+        embed.withAuthorUrl(format("https://minecraft.curseforge.com/members/%s", message.getAuthor().getName()));
+        embed.withFooterText("\nModFetcher made by sokratis12GR");
+        embed.withColor(Color.CYAN);
+        embed.withFooterIcon("https://sokratis12gr.com/img/logo-min.png");
+
+        if (args.length > 1) {
+            for (int index = 1; index < args.length; index++) {
+                project = args[index];
+                embed.withDescription(project + ": " + "https://minecraft.curseforge.com/projects/" + project + "\n" + "downloads" + ": " + getDownloads());
+                sendMessage(message.getChannel(), "", embed.build());
+            }
+        }
     }
 
-    public String getDownloads() {
-        String content = null;
-        URLConnection connection = null;
+    private String getDownloads() {
+        String content;
+        URLConnection connection;
         try {
-            connection = new URL(format("https://minecraft.curseforge.com/projects/%s", mod)).openConnection();
+            connection = new URL(format("https://minecraft.curseforge.com/projects/%s", project)).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
             scanner.useDelimiter("\\Z");
             content = scanner.next();
@@ -56,7 +64,7 @@ public class CommandDownloads implements Command {
 
     @Override
     public String getDescription() {
-        return format("Basic information about the %s mod", name);
+        return format("Basic information about the %s project", project);
     }
 
     @Override
