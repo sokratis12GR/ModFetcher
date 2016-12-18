@@ -1,11 +1,12 @@
 package com.sokratis12gr.modfetcher.commands;
 
 import com.sokratis12gr.modfetcher.ModFetcher;
-import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.EmbedBuilder;
 
 import java.awt.*;
+
+import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 
 public class CommandReload implements Command {
 
@@ -17,10 +18,10 @@ public class CommandReload implements Command {
         embed.withFooterIcon("https://sokratis12gr.com/img/logo-min.png");
         embed.withColor(Color.RED);
         embed.withDesc("Reloading handlers and resource!");
-        Utilities.sendMessage(message.getChannel(), "", embed.build());
+        sendMessage(message.getChannel(), "", embed.build());
         ModFetcher.initHandlers();
         embed.withDesc("Reload complete. That tickled ;)");
-        Utilities.sendMessage(message.getChannel(), "", embed.build());
+        sendMessage(message.getChannel(), "", embed.build());
     }
 
     @Override

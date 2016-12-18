@@ -1,10 +1,12 @@
 package com.sokratis12gr.modfetcher.commands;
 
-import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.EmbedBuilder;
 
 import java.awt.*;
+
+import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
+import static java.lang.String.format;
 
 public class CommandMemberCount implements Command {
 
@@ -14,10 +16,10 @@ public class CommandMemberCount implements Command {
         final int memberCount = message.getChannel().getUsersHere().size();
         embed.withThumbnail("https://sokratis12gr.com/uploads/ModFetcher.png");
         embed.withColor(Color.GREEN);
-        embed.withDescription(String.format("There are %d people in this channel :)", memberCount));
+        embed.withDescription(format("There are %d people in this channel :)", memberCount));
         embed.withFooterText("\nModFetcher made by sokratis12GR");
         embed.withFooterIcon("https://sokratis12gr.com/img/logo-min.png");
-        Utilities.sendMessage(message.getChannel(), "", embed.build());
+        sendMessage(message.getChannel(), "", embed.build());
     }
 
     @Override
