@@ -6,24 +6,20 @@
 .gradle/
 .settings/
 .mtj.tmp/
+.idea/
 
 #File Extensions
 *.iml
-*.ipr
 *.iws
 *.war
 *.ear
-*.class
 *.classpath
 *.project
 
 #File Types
-hs_err_pid*
-NBTExample.nbt
-Thumbs.db
 
 #Generated Files
-OCR.png
-qr.png
-diction.txt
-token.txt
+!/LICENSE
+/Log.txt
+/ModFetcher.png
+/token.txt

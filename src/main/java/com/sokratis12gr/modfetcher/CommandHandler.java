@@ -23,14 +23,9 @@ public class CommandHandler {
         commands.put("about", new CommandAbout());
         commands.put("reload", new CommandReload());
         commands.put("members", new CommandMemberCount());
-        //      commands.put("arp", new CommandDownloads("armorplus", "ArmorPlus"));
-        //      commands.put("tdl", new CommandDownloads("thedragonlib", "TheDragonLib"));
-        //      commands.put("mbs", new CommandDownloads("mob-settings", "MobSettings"));
-        //      commands.put("usr", new CommandDownloads("usefulrecipes", "UsefulRecipes"));
-        //      commands.put("fdp", new CommandDownloads("feedpack", "FeedPack"));
-        commands.put("download", new CommandTesting());
         commands.put("curse", new CommandDownloads());
-        commands.put("test", new CommandTesting());
+        commands.put("me", new CommandMe());
+        commands.put("server", new CommandServer());
     }
 
     /**

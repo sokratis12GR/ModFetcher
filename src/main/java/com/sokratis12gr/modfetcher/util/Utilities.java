@@ -141,14 +141,25 @@ public class Utilities {
      * Attempts to send a private message to a user. If a private message channel does not
      * already exist, it will be created.
      *
-     * @param user     The user to send the private message to.
-     * @param message  The message to send to the user.
+     * @param user    The user to send the private message to.
+     * @param message The message to send to the user.
      */
     public static void sendPrivateMessage(IUser user, String message) {
 
         try {
 
             sendMessage(ModFetcher.instance.getOrCreatePMChannel(user), message);
+        } catch (final Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendPrivateMessage(IUser user, String message, EmbedObject object) {
+
+        try {
+
+            sendMessage(ModFetcher.instance.getOrCreatePMChannel(user), message, object);
         } catch (final Exception e) {
 
             e.printStackTrace();
@@ -177,7 +188,7 @@ public class Utilities {
         }
     }
 
-    public static void sendMessage (IChannel channel, String message, EmbedObject object) {
+    public static void sendMessage(IChannel channel, String message, EmbedObject object) {
 
         if (message.length() > 2000 || object.description.length() > 2000) {
 
@@ -191,9 +202,7 @@ public class Utilities {
 
             channel.sendMessage(message, object, false);
             Thread.sleep(1000);
-        }
-
-        catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
+        } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
 
             e.printStackTrace();
         }

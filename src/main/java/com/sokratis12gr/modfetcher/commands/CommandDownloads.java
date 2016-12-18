@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
+import static com.sokratis12gr.modfetcher.util.Utilities.*;
 import static java.lang.String.format;
 
 public class CommandDownloads implements Command {
@@ -22,26 +22,35 @@ public class CommandDownloads implements Command {
     @Override
     public void processCommand(IMessage message, String[] args) {
         final EmbedBuilder embed = new EmbedBuilder();
-        embed.withAuthorName(message.getAuthor().getName());
+        embed.withThumbnail("https://sokratis12gr.com/uploads/ModFetcher.png");
         embed.withAuthorUrl(format("https://minecraft.curseforge.com/members/%s", message.getAuthor().getName()));
-        embed.withFooterText("\nModFetcher made by sokratis12GR");
         embed.withColor(Color.CYAN);
+        embed.withFooterText("\nModFetcher made by sokratis12GR");
         embed.withFooterIcon("https://sokratis12gr.com/img/logo-min.png");
 
         if (args.length > 1) {
             for (int index = 1; index < args.length; index++) {
                 project = args[index];
-                embed.withDescription(project + ": " + "https://minecraft.curseforge.com/projects/" + project + "\n" + "downloads" + ": " + getDownloads());
-                sendMessage(message.getChannel(), "", embed.build());
+                if (getDownloads() != null) {
+                    embed.withDescription("\n" + makeBold("Project: [" + project + "](" + "https://minecraft.curseforge.com/projects/" + project + ")") + "\n" + makeBold("Downloads") + ": " + getDownloads());
+                    sendMessage(message.getChannel(), "" + message.getAuthor(), embed.build());
+                } else {
+                    embed.withDescription("Sorry couldn't find a project with the name " + project);
+                    sendMessage(message.getChannel(), "", embed.build());
+                }
             }
+        } else if (args.length == 1) {
+            embed.withDescription("Please provide a project, like " + makeCodeBlock("$curse armorplus"));
+            sendMessage(message.getChannel(), "", embed.build());
         }
     }
 
     private String getDownloads() {
         String content;
         URLConnection connection;
+        String projectURL = format("https://minecraft.curseforge.com/projects/%s", project);
         try {
-            connection = new URL(format("https://minecraft.curseforge.com/projects/%s", project)).openConnection();
+            connection = new URL(projectURL).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
             scanner.useDelimiter("\\Z");
             content = scanner.next();
