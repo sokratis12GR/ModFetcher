@@ -26,6 +26,7 @@ public class CommandHandler {
         commands.put("curse", new CommandDownloads());
         commands.put("me", new CommandMe());
         commands.put("server", new CommandServer());
+        commands.put("calc", new CommandCalculate());
     }
 
     /**
