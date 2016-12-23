@@ -61,7 +61,7 @@ public class CommandCalculate implements Command {
 
     @Override
     public String getDescription() {
-        return "Does some basic calculations. \nTypes: \"\'+\' , \'-\', \'*\', \'/\' \"";
+        return "Does some basic calculations.Types: \"\'+\' , \'-\', \'*\', \'/\' \"";
     }
 
     @Override
