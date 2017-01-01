@@ -4,18 +4,16 @@ import com.sokratis12gr.modfetcher.CommandHandler;
 import com.sokratis12gr.modfetcher.ModFetcher;
 import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.EmbedBuilder;
 
-import java.awt.*;
 import java.util.Map.Entry;
 
+import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendPrivateMessage;
 
 public class CommandHelp implements Command {
 
     @Override
     public void processCommand(IMessage message, String[] args) {
-        final EmbedBuilder embed = new EmbedBuilder();
         String descriptions = "";
 
         if (args.length > 1)
@@ -31,13 +29,8 @@ public class CommandHelp implements Command {
                 if (command.getValue().isValidUsage(message))
                     descriptions += ModFetcher.COMMAND_KEY + command.getKey() + " - " + command.getValue().getDescription() + Utilities.SEPERATOR + Utilities.SEPERATOR;
 
-        embed.withDesc(descriptions);
-        embed.withColor(Color.YELLOW);
-        embed.withThumbnail("https://sokratis12gr.com/uploads/ModFetcher.png");
-        embed.withTitle("Commands for ModFetcher");
-        embed.withFooterText("\nModFetcher made by sokratis12GR");
-        embed.withFooterIcon("https://sokratis12gr.com/img/logo-min.png");
-        sendPrivateMessage(message.getAuthor(), "", embed.build());
+        getEmbed().withDesc(descriptions);
+        sendPrivateMessage(message.getAuthor(), "", getEmbed().build());
     }
 
     @Override
