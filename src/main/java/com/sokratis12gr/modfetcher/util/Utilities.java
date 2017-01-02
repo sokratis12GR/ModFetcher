@@ -176,7 +176,6 @@ public class Utilities {
     public static void sendMessage(IChannel channel, String message) {
 
         try {
-
             channel.sendMessage(message);
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
 

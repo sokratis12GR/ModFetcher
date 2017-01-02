@@ -9,54 +9,104 @@ import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 public class CommandCalculate implements Command {
 
     private char calcTypeOne;
-    private long[] numbers = new long[]{0, 0};
+    private char calcTypeTwo;
+    private long[] numbers = new long[]{0, 0, 0};
 
     @Override
     public void processCommand(IMessage message, String[] args) {
-        String description;
-
+        String description = "";
+        String messageError = "Please use ***$calc <number_one> <type> <number_two>...***";
         long[] numbersIn = numbers;
 
-        if (args.length > 1)
+        if (args.length > 1) {
             if (!Pattern.matches(".*[a-zA-Z].*", args[1])) {
                 numbersIn[0] = Long.valueOf(args[1]);
                 if (args.length > 2) {
                     calcTypeOne = args[2].charAt(0);
                     if (args.length > 3) {
-                        numbersIn[1] = Long.valueOf(args[3]);
-                        description = "Result: " + doCalculations();
-                        sendMessage(message.getChannel(), description);
-                    } else {
-                        description = "Please use ***$calc <number_one> <type> <number_two>...***";
-                        sendMessage(message.getChannel(), description);
+                        if (Long.valueOf(args[3]) != null)
+                            numbersIn[1] = Long.valueOf(args[3]);
+                        description = "Result: " + doCalculations(false);
+                        if (args.length > 4) {
+                            calcTypeTwo = args[4].charAt(0);
+                            if (args.length > 5) {
+                                if (Long.valueOf(args[5]) != null)
+                                    numbersIn[2] = Long.valueOf(args[5]);
+                                description = "Result: " + doCalculations(true);
+                            }
+                        }
                     }
-                } else {
-                    description = "Result: " + numbersIn[0];
-                    sendMessage(message.getChannel(), description);
-
                 }
-            } else {
-                description = "Please use ***$calc <number_one> <type> <number_two>...***";
-                sendMessage(message.getChannel(), description);
             }
+        } else {
+            sendMessage(message.getChannel(), messageError);
+        }
+        sendMessage(message.getChannel(), description);
+
     }
 
-    private long doCalculations() {
+    private long doCalculations(boolean secondCalc) {
+        long result = 0;
+        long numberOne = 0;
         switch (calcTypeOne) {
             case '+':
-                long resultAdd = numbers[0] + numbers[1];
-                return resultAdd <= Long.MIN_VALUE || resultAdd >= Long.MAX_VALUE ? 0 : resultAdd;
+                numberOne = numbers[0] + numbers[1];
+                result = numberOne;
+                break;
             case '-':
-                long resultSub = numbers[0] - numbers[1];
-                return resultSub <= Long.MIN_VALUE || resultSub >= Long.MAX_VALUE ? 0 : resultSub;
+                numberOne = numbers[0] - numbers[1];
+                result = numberOne;
+                break;
             case '*':
-                long resultMul = numbers[0] * numbers[1];
-                return resultMul <= Long.MIN_VALUE || resultMul >= Long.MAX_VALUE ? 0 : resultMul;
+                numberOne = numbers[0] * numbers[1];
+                result = numberOne;
+
+                break;
             case '/':
-                long resultDiv = numbers[0] / numbers[1];
-                return resultDiv <= Long.MIN_VALUE || resultDiv >= Long.MAX_VALUE ? 0 : resultDiv;
+                numberOne = numbers[0] / numbers[1];
+                result = numberOne;
+
+                break;
+            case '^':
+                numberOne = (numbers[0] ^ numbers[1]);
+                result = numberOne;
+                break;
+
+            case '%':
+                numberOne = (numbers[0] % numbers[1]);
+                result = numberOne;
+                break;
         }
-        return 0;
+        if (secondCalc) {
+            long numberTwo = 0;
+            switch (calcTypeTwo) {
+                case '+':
+                    numberTwo = numberOne + numbers[2];
+                    result = numberTwo;
+                    break;
+                case '-':
+                    numberTwo = numberOne - numbers[2];
+                    result = numberTwo;
+                    break;
+                case '*':
+                    numberTwo = numberOne * numbers[2];
+                    result = numberTwo;
+                    break;
+                case '/':
+                    numberTwo = numberOne / numbers[2];
+                    result = numberTwo;
+                    break;
+                case '^':
+                    numberTwo = numberOne ^ numbers[2];
+                    result = numberTwo;
+                    break;
+                case '%':
+                    numberTwo = numberOne % numbers[2];
+                    result = numberTwo;
+                    break;
+            }
+        }
+        return result <= Long.MIN_VALUE || result >= Long.MAX_VALUE ? 0 : result;
     }
 
     @Override

@@ -15,13 +15,11 @@ public class CommandMemberCount implements Command {
 
     @Override
     public String getDescription() {
-
         return "Counts the amount of members in the room.";
     }
 
     @Override
     public String getThoroughDescription() {
-
         return this.getDescription();
     }
 }
