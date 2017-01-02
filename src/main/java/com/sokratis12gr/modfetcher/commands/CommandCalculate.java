@@ -11,6 +11,7 @@ public class CommandCalculate implements Command {
     private char calcTypeOne;
     private char calcTypeTwo;
     private double[] numbers = new double[]{0, 0, 0};
+    private Number calculated;
 
     @Override
     public void processCommand(IMessage message, String[] args) {
@@ -25,12 +26,14 @@ public class CommandCalculate implements Command {
                     calcTypeOne = args[2].charAt(0);
                     if (args.length > 3) {
                         numbersIn[1] = Double.valueOf(args[3]);
-                        description = "Result: " + doCalculations(false);
+                        doCalculations(false);
+                        description = "Result: " + getCalculations();
                         if (args.length > 4) {
                             calcTypeTwo = args[4].charAt(0);
                             if (args.length > 5) {
                                 numbersIn[2] = Double.valueOf(args[5]);
-                                description = "Result: " + doCalculations(true);
+                                doCalculations(true);
+                                description = "Result: " + getCalculations();
                             }
                         }
                     }
@@ -40,71 +43,74 @@ public class CommandCalculate implements Command {
             sendMessage(message.getChannel(), messageError);
         }
         sendMessage(message.getChannel(), description);
-
     }
 
-    private double doCalculations(boolean secondCalc) {
-        double result = 0;
-        double numberOne = 0;
+    private double getCalculations() {
+        return (double) calculated;
+    }
+
+    private void doCalculations(boolean secondCalc) {
+        Number result = 0;
+        Number numberOne = 0;
+        double first = numbers[0];
+        double second = numbers[1];
         switch (calcTypeOne) {
             case '+':
-                numberOne = numbers[0] + numbers[1];
+                numberOne = first + second;
                 result = numberOne;
                 break;
             case '-':
-                numberOne = numbers[0] - numbers[1];
+                numberOne = first - second;
                 result = numberOne;
                 break;
             case '*':
-                numberOne = numbers[0] * numbers[1];
+                numberOne = first * second;
                 result = numberOne;
-
                 break;
             case '/':
-                numberOne = numbers[0] / numbers[1];
+                numberOne = first / second;
                 result = numberOne;
-
                 break;
             case '^':
-                numberOne = (long) numbers[0] ^ (long) numbers[1];
+                numberOne = Math.pow(first, second);
                 result = numberOne;
                 break;
-
             case '%':
-                numberOne = numbers[0] % numbers[1];
+                numberOne = first % second;
                 result = numberOne;
                 break;
         }
         if (secondCalc) {
-            double numberTwo = 0;
+            Number numberTwo = 0;
+            double third = numbers[2];
             switch (calcTypeTwo) {
                 case '+':
-                    numberTwo = numberOne + numbers[2];
+                    numberTwo = (double) numberOne + third;
                     result = numberTwo;
                     break;
                 case '-':
-                    numberTwo = numberOne - numbers[2];
+                    numberTwo = (double) numberOne - third;
                     result = numberTwo;
                     break;
                 case '*':
-                    numberTwo = numberOne * numbers[2];
+                    numberTwo = (double) numberOne * third;
                     result = numberTwo;
                     break;
                 case '/':
-                    numberTwo = numberOne / numbers[2];
+                    numberTwo = (double) numberOne / third;
                     result = numberTwo;
                     break;
                 case '^':
-                    numberTwo = (long) numberOne ^ (long) numbers[2];
+                    numberTwo = Math.pow((double) numberOne, third);
                     result = numberTwo;
                     break;
                 case '%':
-                    numberTwo = numberOne % numbers[2];
+                    numberTwo = (double) numberOne % third;
                     result = numberTwo;
                     break;
             }
         }
-        return result <= Double.MIN_VALUE || result >= Double.MAX_VALUE ? 0 : result;
+        calculated = (double) result <= Double.MIN_VALUE || (double) result >= Double.MAX_VALUE ? 0 : (double) result;
     }
 
     @Override
