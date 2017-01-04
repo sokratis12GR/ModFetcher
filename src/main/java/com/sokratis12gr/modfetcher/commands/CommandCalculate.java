@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 import static java.lang.Math.*;
 
-public class CommandCalculate implements Command {
+public class CommandCalculate extends CommandUser {
 
-    private String calcTypeOne;
-    private String calcTypeTwo;
-    private String calcTypeThree;
+    private String calcTypeOne = "";
+    private String calcTypeTwo = "";
+    private String calcTypeThree = "";
     private double[] numbers = new double[]{0, 0, 0, 0};
     private Number calculated;
 
@@ -27,18 +27,21 @@ public class CommandCalculate implements Command {
                 numbersIn[0] = Double.valueOf(args[1]);
                 if (args.length > 2) {
                     calcTypeOne = args[2];
+                    description = "Result: " + getCalculations();
                     if (args.length > 3) {
                         numbersIn[1] = Double.valueOf(args[3]);
                         doCalculations(false, false);
                         description = "Result: " + getCalculations();
                         if (args.length > 4) {
                             calcTypeTwo = args[4];
+                            description = "Result: " + getCalculations();
                             if (args.length > 5) {
                                 numbersIn[2] = Double.valueOf(args[5]);
                                 doCalculations(true, false);
                                 description = "Result: " + getCalculations();
                                 if (args.length > 6) {
                                     calcTypeThree = args[6];
+                                    description = "Result: " + getCalculations();
                                     if (args.length > 7) {
                                         numbersIn[3] = Double.valueOf(args[7]);
                                         doCalculations(true, true);
@@ -65,6 +68,10 @@ public class CommandCalculate implements Command {
         Number numberOne = 0;
         double first = numbers[0];
         double second = numbers[1];
+        Number numberTwo = 0;
+        double third = numbers[2];
+        Number numberThree = 0;
+        double four = numbers[3];
         switch (calcTypeOne) {
             case "+":
                 numberOne = first + second;
@@ -150,10 +157,16 @@ public class CommandCalculate implements Command {
                 numberOne = min(first, second);
                 result = numberOne;
                 break;
+            case "floorMod":
+                numberOne = floorMod((long) first, (long) second);
+                result = numberOne;
+                break;
+            case "floorDiv":
+                numberOne = floorDiv((long) first, (long) second);
+                result = numberOne;
+                break;
         }
         if (secondCalc) {
-            Number numberTwo = 0;
-            double third = numbers[2];
             switch (calcTypeTwo) {
                 case "+":
                     numberTwo = (double) numberOne + third;
@@ -241,8 +254,6 @@ public class CommandCalculate implements Command {
                     break;
             }
             if (thirdCalc) {
-                Number numberThree = 0;
-                double four = numbers[3];
                 switch (calcTypeThree) {
                     case "+":
                         numberThree = (double) numberTwo + four;

@@ -2,6 +2,7 @@ package com.sokratis12gr.modfetcher.util;
 
 import com.sokratis12gr.modfetcher.ModFetcher;
 import org.apache.commons.io.FileUtils;
+import sx.blah.discord.Discord4J;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
@@ -192,8 +193,8 @@ public class Utilities {
         if (message.length() > 2000 || object.description.length() > 2000) {
 
             Utilities.sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars! Embedded: " + object.description.length() + "/2000!");
-            System.out.println(message);
-            System.out.println(object.description);
+            Discord4J.LOGGER.info(message);
+            Discord4J.LOGGER.info(object.description);
             return;
         }
 

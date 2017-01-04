@@ -6,7 +6,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendPrivateMessage;
 
-public class CommandAbout implements Command {
+public class CommandAbout extends CommandUser {
 
     @Override
     public void processCommand(IMessage message, String[] args) {

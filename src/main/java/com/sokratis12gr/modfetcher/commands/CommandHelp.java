@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendPrivateMessage;
 
-public class CommandHelp implements Command {
+public class CommandHelp extends CommandUser {
 
     @Override
     public void processCommand(IMessage message, String[] args) {

@@ -6,7 +6,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 
-public class CommandReload implements Command {
+public class CommandReload extends CommandAdmin {
 
     @Override
     public void processCommand(IMessage message, String[] params) {

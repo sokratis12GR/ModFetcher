@@ -5,7 +5,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 
-public class CommandServer implements Command {
+public class CommandServer extends CommandUser {
 
     @Override
     public void processCommand(IMessage message, String[] params) {

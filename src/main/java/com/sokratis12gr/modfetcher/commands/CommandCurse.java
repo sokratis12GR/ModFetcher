@@ -14,7 +14,7 @@ import static com.sokratis12gr.modfetcher.util.EmbedBase.getEmbed;
 import static com.sokratis12gr.modfetcher.util.Utilities.*;
 import static java.lang.String.format;
 
-public class CommandDownloads implements Command {
+public class CommandCurse extends CommandUser {
 
     private String project;
 

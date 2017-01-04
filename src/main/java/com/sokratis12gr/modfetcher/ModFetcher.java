@@ -7,7 +7,6 @@ import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.util.DiscordException;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,7 +15,7 @@ public class ModFetcher {
 
     public static final String COMMAND_KEY = "$";
     public static IDiscordClient instance;
-    public static FileReader fileReader;
+    public static final String TDTG_GUILD_ID = "218315723473158146";
 
     private static String token_key;
 

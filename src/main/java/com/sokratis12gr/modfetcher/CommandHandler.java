@@ -23,10 +23,11 @@ public class CommandHandler {
         commands.put("about", new CommandAbout());
         commands.put("reload", new CommandReload());
         commands.put("members", new CommandMemberCount());
-        commands.put("curse", new CommandDownloads());
+        commands.put("curse", new CommandCurse());
         commands.put("me", new CommandMe());
         commands.put("server", new CommandServer());
         commands.put("calc", new CommandCalculate());
+        commands.put("id", new CommandID());
     }
 
     /**
@@ -58,10 +59,11 @@ public class CommandHandler {
         final String key = getCommandKeyFromMessage(message.getContent());
         final Command command = commands.get(key);
 
-        if (command == null)
+        if (command == null) {
             Utilities.sendMessage(message.getChannel(), "No command was found by that name. " + key);
+            return;
+        }
 
-        assert command != null;
         if (!command.isValidUsage(message)) {
 
             Utilities.sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");

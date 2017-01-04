@@ -5,7 +5,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
 import static java.lang.String.format;
 
-public class CommandMemberCount implements Command {
+public class CommandMemberCount extends CommandUser {
 
     @Override
     public void processCommand(IMessage message, String[] params) {
