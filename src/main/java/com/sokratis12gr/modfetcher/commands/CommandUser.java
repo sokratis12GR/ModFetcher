@@ -11,6 +11,6 @@ public abstract class CommandUser implements Command {
 
         final IUser user = message.getAuthor();
 
-        return TDTRoles.EVERYOME.hasRole(user);
+        return TDTRoles.EVERYONE.hasRole(user);
     }
 }
