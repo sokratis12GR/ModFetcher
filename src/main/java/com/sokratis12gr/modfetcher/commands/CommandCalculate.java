@@ -72,277 +72,117 @@ public class CommandCalculate extends CommandUser {
         double third = numbers[2];
         Number numberThree = 0;
         double four = numbers[3];
-        switch (calcTypeOne) {
-            case "+":
-                numberOne = first + second;
-                result = numberOne;
-                break;
-            case "add":
-                numberOne = first + second;
-                result = numberOne;
-                break;
-            case "plus":
-                numberOne = first + second;
-                result = numberOne;
-                break;
-            case "-":
-                numberOne = first - second;
-                result = numberOne;
-                break;
-            case "minus":
-                numberOne = first - second;
-                result = numberOne;
-                break;
-            case "sub":
-                numberOne = first - second;
-                result = numberOne;
-                break;
-            case "*":
-                numberOne = first * second;
-                result = numberOne;
-                break;
-            case "multiply":
-                numberOne = first * second;
-                result = numberOne;
-                break;
-            case "times":
-                numberOne = first * second;
-                result = numberOne;
-                break;
-            case "/":
-                numberOne = first / second;
-                result = numberOne;
-                break;
-            case "divide":
-                numberOne = first / second;
-                result = numberOne;
-                break;
-            case "^":
-                numberOne = pow(first, second);
-                result = numberOne;
-                break;
-            case "%":
-                numberOne = first % second;
-                result = numberOne;
-                break;
-            case "modulus":
-                numberOne = first % second;
-                result = numberOne;
-                break;
-            case "√":
-                numberOne = pow(first, 1 / second);
-                result = numberOne;
-                break;
-            case "root":
-                numberOne = pow(first, 1 / second);
-                result = numberOne;
-                break;
-            case "+e":
-                numberOne = addExact((long) first, (long) second);
-                result = numberOne;
-                break;
-            case "-e":
-                numberOne = subtractExact((long) first, (long) second);
-                result = numberOne;
-                break;
-            case "*e":
-                numberOne = multiplyExact((long) first, (long) second);
-                result = numberOne;
-                break;
-            case "max":
-                numberOne = max(first, second);
-                result = numberOne;
-                break;
-            case "min":
-                numberOne = min(first, second);
-                result = numberOne;
-                break;
-            case "floorMod":
-                numberOne = floorMod((long) first, (long) second);
-                result = numberOne;
-                break;
-            case "floorDiv":
-                numberOne = floorDiv((long) first, (long) second);
-                result = numberOne;
-                break;
-        }
+        numberOne = calcSwitch(calcTypeOne, first, second);
+        result = numberOne;
         if (secondCalc) {
-            switch (calcTypeTwo) {
-                case "+":
-                    numberTwo = (double) numberOne + third;
-                    result = numberTwo;
-                    break;
-                case "add":
-                    numberTwo = (double) numberOne + third;
-                    result = numberTwo;
-                    break;
-                case "plus":
-                    numberTwo = (double) numberOne + third;
-                    result = numberTwo;
-                    break;
-                case "-":
-                    numberTwo = (double) numberOne - third;
-                    result = numberTwo;
-                    break;
-                case "minus":
-                    numberTwo = (double) numberOne - third;
-                    result = numberTwo;
-                    break;
-                case "sub":
-                    numberTwo = (double) numberOne - third;
-                    result = numberTwo;
-                    break;
-                case "*":
-                    numberTwo = (double) numberOne * third;
-                    result = numberTwo;
-                    break;
-                case "multiply":
-                    numberTwo = (double) numberOne * third;
-                    result = numberTwo;
-                    break;
-                case "times":
-                    numberTwo = (double) numberOne * third;
-                    result = numberTwo;
-                    break;
-                case "/":
-                    numberTwo = (double) numberOne / third;
-                    result = numberTwo;
-                    break;
-                case "divide":
-                    numberTwo = (double) numberOne / third;
-                    result = numberTwo;
-                    break;
-                case "^":
-                    numberTwo = pow((double) numberOne, third);
-                    result = numberTwo;
-                    break;
-                case "%":
-                    numberTwo = (double) numberOne % third;
-                    result = numberTwo;
-                    break;
-                case "modulus":
-                    numberTwo = (double) numberOne % third;
-                    result = numberTwo;
-                    break;
-                case "√":
-                    numberTwo = pow((double) numberOne, 1 / third);
-                    result = numberTwo;
-                    break;
-                case "root":
-                    numberTwo = pow((double) numberOne, 1 / third);
-                    result = numberTwo;
-                    break;
-                case "+e":
-                    numberTwo = addExact((long) numberOne, (long) third);
-                    result = numberTwo;
-                    break;
-                case "-e":
-                    numberTwo = subtractExact((long) numberOne, (long) third);
-                    result = numberTwo;
-                    break;
-                case "*e":
-                    numberTwo = multiplyExact((long) numberOne, (long) third);
-                    result = numberTwo;
-                    break;
-                case "max":
-                    numberTwo = max((double) numberOne, third);
-                    result = numberTwo;
-                    break;
-                case "min":
-                    numberTwo = min((double) numberOne, third);
-                    result = numberTwo;
-                    break;
-            }
+            numberTwo = calcSwitch(calcTypeTwo, numberOne, third);
+            result = numberTwo;
             if (thirdCalc) {
-                switch (calcTypeThree) {
-                    case "+":
-                        numberThree = (double) numberTwo + four;
-                        result = numberThree;
-                        break;
-                    case "add":
-                        numberThree = (double) numberTwo + four;
-                        result = numberThree;
-                        break;
-                    case "plus":
-                        numberThree = (double) numberTwo + four;
-                        result = numberThree;
-                        break;
-                    case "-":
-                        numberThree = (double) numberTwo - four;
-                        result = numberThree;
-                        break;
-                    case "minus":
-                        numberThree = (double) numberTwo - four;
-                        result = numberThree;
-                        break;
-                    case "sub":
-                        numberThree = (double) numberTwo - four;
-                        result = numberThree;
-                        break;
-                    case "*":
-                        numberThree = (double) numberTwo * four;
-                        result = numberThree;
-                        break;
-                    case "multiply":
-                        numberThree = (double) numberTwo * four;
-                        result = numberThree;
-                        break;
-                    case "times":
-                        numberThree = (double) numberTwo * four;
-                        result = numberThree;
-                        break;
-                    case "/":
-                        numberThree = (double) numberTwo / four;
-                        result = numberThree;
-                        break;
-                    case "divide":
-                        numberThree = (double) numberTwo / four;
-                        result = numberThree;
-                        break;
-                    case "^":
-                        numberThree = pow((double) numberTwo, four);
-                        result = numberThree;
-                        break;
-                    case "%":
-                        numberThree = (double) numberTwo % four;
-                        result = numberThree;
-                        break;
-                    case "modulus":
-                        numberThree = (double) numberTwo % four;
-                        result = numberThree;
-                        break;
-                    case "√":
-                        numberThree = pow((double) numberTwo, 1 / four);
-                        result = numberThree;
-                        break;
-                    case "root":
-                        numberThree = pow((double) numberTwo, 1 / four);
-                        result = numberThree;
-                        break;
-                    case "+e":
-                        numberThree = addExact((long) numberTwo, (long) four);
-                        result = numberThree;
-                        break;
-                    case "-e":
-                        numberThree = subtractExact((long) numberTwo, (long) four);
-                        result = numberThree;
-                        break;
-                    case "*e":
-                        numberThree = multiplyExact((long) numberTwo, (long) four);
-                        result = numberThree;
-                        break;
-                    case "max":
-                        numberThree = max((double) numberTwo, four);
-                        result = numberThree;
-                        break;
-                    case "min":
-                        numberThree = min((double) numberTwo, four);
-                        result = numberThree;
-                        break;
-                }
+                numberThree = calcSwitch(calcTypeThree, numberTwo, four);
+                result = numberThree;
             }
         }
         calculated = result;
+    }
+
+    private static Number calcSwitch(String calc, Number one, double two) {
+        Number result = 0;
+        Number calculated = 0;
+        switch (calc) {
+            case "+":
+                calculated = (double) one + two;
+                result = calculated;
+                break;
+            case "add":
+                calculated = (double) one + two;
+                result = calculated;
+                break;
+            case "plus":
+                calculated = (double) one + two;
+                result = calculated;
+                break;
+            case "-":
+                calculated = (double) one - two;
+                result = calculated;
+                break;
+            case "minus":
+                calculated = (double) one - two;
+                result = calculated;
+                break;
+            case "sub":
+                calculated = (double) one - two;
+                result = calculated;
+                break;
+            case "*":
+                calculated = (double) one * two;
+                result = calculated;
+                break;
+            case "multiply":
+                calculated = (double) one * two;
+                result = calculated;
+                break;
+            case "times":
+                calculated = (double) one * two;
+                result = calculated;
+                break;
+            case "/":
+                calculated = (double) one / two;
+                result = calculated;
+                break;
+            case "divide":
+                calculated = (double) one / two;
+                result = calculated;
+                break;
+            case "^":
+                calculated = pow((double) one, two);
+                result = calculated;
+                break;
+            case "%":
+                calculated = (double) one % two;
+                result = calculated;
+                break;
+            case "modulus":
+                calculated = (double) one % two;
+                result = calculated;
+                break;
+            case "√":
+                calculated = pow((double) one, 1 / two);
+                result = calculated;
+                break;
+            case "root":
+                calculated = pow((double) one, 1 / two);
+                result = calculated;
+                break;
+            case "+e":
+                calculated = addExact((long) one, (long) two);
+                result = calculated;
+                break;
+            case "-e":
+                calculated = subtractExact((long) one, (long) two);
+                result = calculated;
+                break;
+            case "*e":
+                calculated = multiplyExact((long) one, (long) two);
+                result = calculated;
+                break;
+            case "max":
+                calculated = max((double) one, two);
+                result = calculated;
+                break;
+            case "min":
+                calculated = min((double) one, two);
+                result = calculated;
+                break;
+            case "floorMod":
+                calculated = floorMod((long) one, (long) two);
+                result = calculated;
+                break;
+            case "floorDiv":
+                calculated = floorDiv((long) one, (long) two);
+                result = calculated;
+                break;
+        }
+        return result;
     }
 
     @Override
