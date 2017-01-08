@@ -1,200 +1,179 @@
 package com.sokratis12gr.modfetcher.commands;
 
-import com.sokratis12gr.modfetcher.util.Utilities;
-import sx.blah.discord.handle.obj.IMessage;
-
-import java.util.Objects;
-import java.util.regex.Pattern;
-
 import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
-import static java.lang.Math.*;
+import static java.lang.Math.addExact;
+import static java.lang.Math.floorDiv;
+import static java.lang.Math.floorMod;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.multiplyExact;
+import static java.lang.Math.pow;
+import static java.lang.Math.subtractExact;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.regex.Pattern;
+import sx.blah.discord.handle.obj.IMessage;
+import com.sokratis12gr.modfetcher.util.Utilities;
 
 public class CommandCalculate extends CommandUser {
 
-    private String calcTypeOne = "";
-    private String calcTypeTwo = "";
-    private String calcTypeThree = "";
-    private String calcTypeFour = "";
-    private String calcTypeFive = "";
-    private String calcTypeSix = "";
-    private double[] numbers = new double[]{0, 0, 0, 0, 0, 0, 0};
     private Number calculated;
-    private Number[] calculations = new Number[]{0, 0, 0, 0, 0, 0, 0};
 
     @Override
     public void processCommand(IMessage message, String[] args) {
         String description = "";
         final String messageError = "Please use ***$calc <number_one> <type> <number_two>...***";
-        double[] numbersIn = numbers;
+        Queue<Object> postfix = new LinkedList<>();
+        Stack<String> stack = new Stack<>();	
 
-        if (args.length > 1) {
-            numbersIn[0] = !Pattern.matches(".*[a-zA-Z].*", args[1]) ? Double.valueOf(args[1]) : 0;
-            description = "Result: " + getCalculations();
-            if (args.length > 2) {
-                calcTypeOne = args[2];
-                description = "Result: " + getCalculations();
-                if (args.length > 3) {
-                    numbersIn[1] = !Pattern.matches(".*[a-zA-Z].*", args[3]) ? Double.valueOf(args[3]) : 0;
-                    doCalculations(false, false, false, false, false);
-                    description = "Result: " + getCalculations();
-                    if (args.length > 4) {
-                        calcTypeTwo = args[4];
-                        description = "Result: " + getCalculations();
-                        if (args.length > 5) {
-                            numbersIn[2] = !Pattern.matches(".*[a-zA-Z].*", args[5]) ? Double.valueOf(args[5]) : 0;
-                            doCalculations(true, false, false, false, false);
-                            description = "Result: " + getCalculations();
-                            if (args.length > 6) {
-                                calcTypeThree = args[6];
-                                description = "Result: " + getCalculations();
-                                if (args.length > 7) {
-                                    numbersIn[3] = !Pattern.matches(".*[a-zA-Z].*", args[7]) ? Double.valueOf(args[7]) : 0;
-                                    doCalculations(true, true, false, false, false);
-                                    description = "Result: " + getCalculations();
-                                    if (args.length > 8) {
-                                        calcTypeFour = args[8];
-                                        description = "Result: " + getCalculations();
-                                        if (args.length > 9) {
-                                            numbersIn[4] = !Objects.equals(args[9], ".*[a-zA-Z].*") ? Double.valueOf(args[9]) : 0;
-                                            doCalculations(true, true, true, false, false);
-                                            description = "Result: " + getCalculations();
-                                            if (args.length > 10) {
-                                                calcTypeFive = args[10];
-                                                description = "Result: " + getCalculations();
-                                                if (args.length > 11) {
-                                                    numbersIn[5] = !Objects.equals(args[11], ".*[a-zA-Z].*") ? Double.valueOf(args[11]) : 0;
-                                                    doCalculations(true, true, true, true, false);
-                                                    description = "Result: " + getCalculations();
-                                                    if (args.length > 12) {
-                                                        calcTypeSix = args[12];
-                                                        description = "Result: " + getCalculations();
-                                                        if (args.length > 13) {
-                                                            numbersIn[6] = !Objects.equals(args[13], ".*[a-zA-Z].*") ? Double.valueOf(args[13]) : 0;
-                                                            doCalculations(true, true, true, true, true);
-                                                            description = "Result: " + getCalculations();
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            sendMessage(message.getChannel(), messageError);
+        if (args.length % 2 != 1)
+        	sendMessage(message.getChannel(), messageError);
+        else
+        {
+        	for (int i = 1; i < args.length; i += 2)
+        	{
+        		if (!Pattern.matches(".*[a-zA-Z].*", args[i]))
+        			postfix.add(Double.valueOf(args[i]));
+        		else
+        		{
+        			sendMessage(message.getChannel(), messageError);
+        			return;
+        		}
+        		
+        		int precedence = getPrecedence(args[i+1]);
+        		if (precedence < 0)
+        		{
+        			sendMessage(message.getChannel(), messageError);
+        			return;
+        		}
+        		else
+        		{
+        			if (stack.isEmpty() || precedence >= getPrecedence(stack.peek()))
+        				stack.push(args[i+1]);
+        			else
+        			{
+        				while (precedence < getPrecedence(stack.peek()))
+        					postfix.add(stack.pop());
+        				stack.push(args[i+1]);
+        			}
+        		}
+        	}
+        	while (!stack.isEmpty())
+        		postfix.add(stack.pop());
+        	
+        	doCalculations(postfix);
+        	description = "Result: " + getCalculations();
         }
+        
         sendMessage(message.getChannel(), description);
     }
-
+    
     private Number getCalculations() {
         return calculated != null ? calculated : 0;
     }
 
-    private void doCalculations(boolean secondCalc, boolean thirdCalc, boolean fourthCalc, boolean fifthCalc, boolean sixthCalc) {
-        Number result = 0;
+    private void doCalculations(Queue<?> postfix) {
+        Stack<Number> stack = new Stack<>();
 
-        double first = numbers[0];
-        double second = numbers[1];
-        double third = numbers[2];
-        double four = numbers[3];
-        double five = numbers[4];
-        double six = numbers[5];
-        double seven = numbers[6];
-        calculations[0] = calcSwitch(calcTypeOne, first, second);
-        result = calculations[0];
-        if (secondCalc) {
-            calculations[1] = calcSwitch(calcTypeTwo, calculations[0], third);
-            result = calculations[1];
-            if (thirdCalc) {
-                calculations[2] = calcSwitch(calcTypeThree, calculations[1], four);
-                result = calculations[2];
-                if (fourthCalc) {
-                    calculations[3] = calcSwitch(calcTypeFour, calculations[2], five);
-                    result = calculations[3];
-                    if (fifthCalc) {
-                        calculations[4] = calcSwitch(calcTypeFive, calculations[3], six);
-                        result = calculations[4];
-                        if (sixthCalc) {
-                            calculations[5] = calcSwitch(calcTypeSix, calculations[4], seven);
-                            result = calculations[5];
-                        }
-                    }
-                }
-            }
+        while (!postfix.isEmpty())
+        {
+        	Object obj = postfix.remove();
+        	if (obj instanceof Number)
+        		stack.add((Number) obj);
+        	else if (obj instanceof String)
+        	{
+        		Number second = stack.pop();
+        		Number first = stack.pop();
+        		stack.push(calcSwitch((String) obj, first, second));
+        	}
         }
-        calculated = result;
+        
+        calculated = stack.pop();
     }
 
-    private static Number calcSwitch(String calc, Number one, double two) {
+    // + - * / ^ % sqrt max min floorMod floorDiv
+    
+    /*
+     * ^
+     * * / % floorMod floorDiv
+     * + -
+     */
+    
+    private static int getPrecedence(String calc)
+    {
+    	switch (calc)
+    	{
+    		case "+":
+            case "add":
+            case "plus":
+            case "-":
+            case "minus":
+            case "sub":
+            case "+e":
+            case "-e":
+            	return 0;
+            case "*":
+            case "multiply":
+            case "times":
+            case "/":
+            case "divide":
+            case "%":
+            case "modulus":
+            case "*e":
+            case "floorMod":
+            case "floorDiv":
+                return 1;
+            case "^":
+            case "√":
+            case "root":
+                return 2;
+            case "max":
+            case "min":
+                return 3;   
+    	}
+    	return -1;
+    }
+    
+    private static Number calcSwitch(String calc, Number one, Number two) {
         Number result = 0;
         Number calculated = 0;
         switch (calc) {
             case "+":
-                calculated = (double) one + two;
-                result = calculated;
-                break;
             case "add":
-                calculated = (double) one + two;
-                result = calculated;
-                break;
             case "plus":
-                calculated = (double) one + two;
+                calculated = (double) one + (double) two;
                 result = calculated;
                 break;
             case "-":
-                calculated = (double) one - two;
-                result = calculated;
-                break;
             case "minus":
-                calculated = (double) one - two;
-                result = calculated;
-                break;
             case "sub":
-                calculated = (double) one - two;
+                calculated = (double) one - (double) two;
                 result = calculated;
                 break;
             case "*":
-                calculated = (double) one * two;
-                result = calculated;
-                break;
             case "multiply":
-                calculated = (double) one * two;
-                result = calculated;
-                break;
             case "times":
-                calculated = (double) one * two;
+                calculated = (double) one * (double) two;
                 result = calculated;
                 break;
             case "/":
-                calculated = (double) one / two;
-                result = calculated;
-                break;
             case "divide":
-                calculated = (double) one / two;
+                calculated = (double) one / (double) two;
                 result = calculated;
                 break;
             case "^":
-                calculated = pow((double) one, two);
+                calculated = pow((double) one, (double) two);
                 result = calculated;
                 break;
             case "%":
-                calculated = (double) one % two;
-                result = calculated;
-                break;
             case "modulus":
-                calculated = (double) one % two;
+                calculated = (double) one % (double) two;
                 result = calculated;
                 break;
             case "√":
-                calculated = pow((double) one, 1 / two);
-                result = calculated;
-                break;
             case "root":
-                calculated = pow((double) one, 1 / two);
+                calculated = pow((double) one, 1 / (double) two);
                 result = calculated;
                 break;
             case "+e":
@@ -210,11 +189,11 @@ public class CommandCalculate extends CommandUser {
                 result = calculated;
                 break;
             case "max":
-                calculated = max((double) one, two);
+                calculated = max((double) one, (double) two);
                 result = calculated;
                 break;
             case "min":
-                calculated = min((double) one, two);
+                calculated = min((double) one, (double) two);
                 result = calculated;
                 break;
             case "floorMod":
