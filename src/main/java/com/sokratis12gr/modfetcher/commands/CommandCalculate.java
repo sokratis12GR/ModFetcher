@@ -244,6 +244,8 @@ public class CommandCalculate extends CommandUser {
                 + "\n\"*e\""
                 + "\n\"max\""
                 + "\n\"min\""
+                + "\n\"floorMod\""
+                + "\n\"floorDiv\""
         );
     }
 
