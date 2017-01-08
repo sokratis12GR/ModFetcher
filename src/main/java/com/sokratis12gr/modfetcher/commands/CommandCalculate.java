@@ -19,18 +19,7 @@ public class CommandCalculate extends CommandUser {
     private String calcTypeSix = "";
     private double[] numbers = new double[]{0, 0, 0, 0, 0, 0, 0};
     private Number calculated;
-    private boolean calc1 = false;
-    private boolean calc2 = false;
-    private boolean calc3 = false;
-    private boolean calc4 = false;
-    private boolean calc5 = false;
-    private boolean calc6 = false;
-    private Number numberOne = 0;
-    private Number numberTwo = 0;
-    private Number numberThree = 0;
-    private Number numberFour = 0;
-    private Number numberFive = 0;
-    private Number numberSix = 0;
+    private Number[] calculations = new Number[]{0, 0, 0, 0, 0, 0, 0};
 
     @Override
     public void processCommand(IMessage message, String[] args) {
@@ -39,48 +28,48 @@ public class CommandCalculate extends CommandUser {
         double[] numbersIn = numbers;
 
         if (args.length > 1) {
-            numbersIn[0] = !Pattern.matches(".*[^0-9].*", args[1]) ? Double.valueOf(args[1]) : 0;
+            numbersIn[0] = !Pattern.matches(".*[a-zA-Z].*", args[1]) ? Double.valueOf(args[1]) : 0;
             description = "Result: " + getCalculations();
             if (args.length > 2) {
                 calcTypeOne = args[2];
                 description = "Result: " + getCalculations();
                 if (args.length > 3) {
-                    numbersIn[1] = !Pattern.matches(".*[^0-9].*", args[3]) ? Double.valueOf(args[3]) : 0;
+                    numbersIn[1] = !Pattern.matches(".*[a-zA-Z].*", args[3]) ? Double.valueOf(args[3]) : 0;
                     doCalculations(false, false, false, false, false);
                     description = "Result: " + getCalculations();
                     if (args.length > 4) {
                         calcTypeTwo = args[4];
                         description = "Result: " + getCalculations();
                         if (args.length > 5) {
-                            numbersIn[2] = !Pattern.matches(".*[^0-9].*", args[5]) ? Double.valueOf(args[5]) : 0;
+                            numbersIn[2] = !Pattern.matches(".*[a-zA-Z].*", args[5]) ? Double.valueOf(args[5]) : 0;
                             doCalculations(true, false, false, false, false);
                             description = "Result: " + getCalculations();
                             if (args.length > 6) {
                                 calcTypeThree = args[6];
                                 description = "Result: " + getCalculations();
                                 if (args.length > 7) {
-                                    numbersIn[3] = !Pattern.matches(".*[^0-9].*", args[7]) ? Double.valueOf(args[7]) : 0;
+                                    numbersIn[3] = !Pattern.matches(".*[a-zA-Z].*", args[7]) ? Double.valueOf(args[7]) : 0;
                                     doCalculations(true, true, false, false, false);
                                     description = "Result: " + getCalculations();
                                     if (args.length > 8) {
                                         calcTypeFour = args[8];
                                         description = "Result: " + getCalculations();
                                         if (args.length > 9) {
-                                            numbersIn[4] = !Objects.equals(args[9], ".*[^0-9].*") ? Double.valueOf(args[9]) : 0;
+                                            numbersIn[4] = !Objects.equals(args[9], ".*[a-zA-Z].*") ? Double.valueOf(args[9]) : 0;
                                             doCalculations(true, true, true, false, false);
                                             description = "Result: " + getCalculations();
                                             if (args.length > 10) {
                                                 calcTypeFive = args[10];
                                                 description = "Result: " + getCalculations();
                                                 if (args.length > 11) {
-                                                    numbersIn[5] = !Objects.equals(args[11], ".*[^0-9].*") ? Double.valueOf(args[11]) : 0;
+                                                    numbersIn[5] = !Objects.equals(args[11], ".*[a-zA-Z].*") ? Double.valueOf(args[11]) : 0;
                                                     doCalculations(true, true, true, true, false);
                                                     description = "Result: " + getCalculations();
                                                     if (args.length > 12) {
                                                         calcTypeSix = args[12];
                                                         description = "Result: " + getCalculations();
                                                         if (args.length > 13) {
-                                                            numbersIn[6] = !Objects.equals(args[13], ".*[^0-9].*") ? Double.valueOf(args[13]) : 0;
+                                                            numbersIn[6] = !Objects.equals(args[13], ".*[a-zA-Z].*") ? Double.valueOf(args[13]) : 0;
                                                             doCalculations(true, true, true, true, true);
                                                             description = "Result: " + getCalculations();
                                                         }
@@ -102,20 +91,7 @@ public class CommandCalculate extends CommandUser {
     }
 
     private Number getCalculations() {
-        if (calc1) {
-            return numberOne;
-        } else if (calc2) {
-            return numberTwo;
-        } else if (calc3) {
-            return numberThree;
-        } else if (calc4) {
-            return numberFour;
-        } else if (calc5) {
-            return numberFive;
-        } else if (calc6) {
-            return numberSix;
-        }
-        return 0;
+        return calculated != null ? calculated : 0;
     }
 
     private void doCalculations(boolean secondCalc, boolean thirdCalc, boolean fourthCalc, boolean fifthCalc, boolean sixthCalc) {
@@ -128,29 +104,23 @@ public class CommandCalculate extends CommandUser {
         double five = numbers[4];
         double six = numbers[5];
         double seven = numbers[6];
-        numberOne = calcSwitch(calcTypeOne, first, second);
-        result = numberOne;
-        calc1 = true;
+        calculations[0] = calcSwitch(calcTypeOne, first, second);
+        result = calculations[0];
         if (secondCalc) {
-            numberTwo = calcSwitch(calcTypeTwo, numberOne, third);
-            result = numberTwo;
-            calc2 = true;
+            calculations[1] = calcSwitch(calcTypeTwo, calculations[0], third);
+            result = calculations[1];
             if (thirdCalc) {
-                numberThree = calcSwitch(calcTypeThree, numberTwo, four);
-                result = numberThree;
-                calc3 = true;
+                calculations[2] = calcSwitch(calcTypeThree, calculations[1], four);
+                result = calculations[2];
                 if (fourthCalc) {
-                    numberFour = calcSwitch(calcTypeFour, numberThree, five);
-                    result = numberFour;
-                    calc4 = true;
+                    calculations[3] = calcSwitch(calcTypeFour, calculations[2], five);
+                    result = calculations[3];
                     if (fifthCalc) {
-                        numberFive = calcSwitch(calcTypeFive, numberFour, six);
-                        result = numberFive;
-                        calc5 = true;
+                        calculations[4] = calcSwitch(calcTypeFive, calculations[3], six);
+                        result = calculations[4];
                         if (sixthCalc) {
-                            numberSix = calcSwitch(calcTypeSix, numberFive, seven);
-                            result = numberSix;
-                            calc6 = true;
+                            calculations[5] = calcSwitch(calcTypeSix, calculations[4], seven);
+                            result = calculations[5];
                         }
                     }
                 }
