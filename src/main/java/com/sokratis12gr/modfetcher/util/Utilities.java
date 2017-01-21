@@ -204,6 +204,42 @@ public class Utilities {
         return "```MARKDOWN\n" + text + "```";
     }
 
+    public static String makeMultiMarkDownMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + " ";
+
+        return "```MARKDOWN\n" + text + "```";
+    }
+
+    public static String makeMultiJavaMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + " ";
+
+        return "```JAVA\n" + text + "```";
+    }
+
+    public static String makeMultiHTMLMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + " ";
+
+        return "```HTML\n" + text + "```";
+    }
+
+    public static String makeMultiTypeMessage(String type, String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + " ";
+
+        return "```" + type + "\n" + text + "```";
+    }
+
 
     /**
      * Makes a String message appear in a multi-lined code block. This only applies to chat.
@@ -250,7 +286,6 @@ public class Utilities {
     public static void sendPrivateMessage(IUser user, String message) {
 
         try {
-
             sendMessage(ModFetcher.instance.getOrCreatePMChannel(user), message);
         } catch (final Exception e) {
 
@@ -279,7 +314,9 @@ public class Utilities {
     public static void sendMessage(IChannel channel, String message) {
 
         try {
-            channel.sendMessage(message);
+            if (channel != ModFetcher.instance.getChannelByID("218315723473158146")) {
+                channel.sendMessage(message);
+            }
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
 
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
@@ -301,9 +338,10 @@ public class Utilities {
         }
 
         try {
-
-            channel.sendMessage(message, object, false);
-            Thread.sleep(1000);
+            if (channel != ModFetcher.instance.getChannelByID("218315723473158146")) {
+                channel.sendMessage(message, object, false);
+                Thread.sleep(1000);
+            }
         } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
 
             e.printStackTrace();

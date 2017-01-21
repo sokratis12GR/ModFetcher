@@ -2,8 +2,6 @@ package com.sokratis12gr.modfetcher;
 
 import com.sokratis12gr.modfetcher.commands.*;
 import com.sokratis12gr.modfetcher.util.Utilities;
-import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 
 import java.util.HashMap;
@@ -29,6 +27,7 @@ public class CommandHandler {
         commands.put("server", new CommandServer());
         commands.put("calc", new CommandCalculate());
         commands.put("id", new CommandID());
+        commands.put("write", new CommandWrite());
     }
 
     /**
@@ -38,7 +37,6 @@ public class CommandHandler {
      * @param command The command that is triggered by the key phrase.
      */
     public static void registerCommand(String key, Command command) {
-
         if (!commands.containsKey(key))
             commands.put(key, command);
     }
@@ -46,10 +44,9 @@ public class CommandHandler {
     /**
      * Provides access the the Map used to store all registered commands.
      *
-     * @return Map<String, CommandBase> The Map used to store all commands.
+     * @return The Map used to store all commands.
      */
     public static Map<String, Command> getCommands() {
-
         return commands;
     }
 
@@ -59,13 +56,11 @@ public class CommandHandler {
      * @param message The message to parse.
      */
     public static void attemptCommandTriggers(IMessage message) {
-
         final String key = getCommandKeyFromMessage(message.getContent());
         final Command command = commands.get(key);
 
         if (command == null) {
-
-            Utilities.sendMessage(message.getChannel(), "No command found for " + key);
+            Utilities.sendMessage(message.getChannel(), "No command was found by that name. " + key);
             return;
         }
 
@@ -87,8 +82,7 @@ public class CommandHandler {
      * @return String The command key being used.
      */
     public static String getCommandKeyFromMessage(String message) {
-
-        return getParameters(message)[0].toLowerCase();
+        return message.substring(1).split(" ")[0].toLowerCase();
     }
 
     /**
@@ -101,8 +95,7 @@ public class CommandHandler {
      * @return String[] An array of all parameters and the command key.
      */
     public static String[] getParameters(String message) {
-
-        return message.substring(ModFetcher.COMMAND_KEY.length() + 1).split(" ");
+        return message.substring(1).split(" ");
     }
 
     /**
@@ -113,13 +106,6 @@ public class CommandHandler {
      * @return Command The found command, or null if it doesn't exist.
      */
     public static Command getCommand(String keyName) {
-
         return commands.get(keyName.toLowerCase());
-    }
-
-    @EventSubscriber
-    public void onMessageRecieved(MessageReceivedEvent event) {
-        if (event.getMessage().getContent().startsWith(ModFetcher.COMMAND_KEY))
-            CommandHandler.attemptCommandTriggers(event.getMessage());
     }
 }
