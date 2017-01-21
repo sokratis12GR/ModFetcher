@@ -1,6 +1,6 @@
 package com.sokratis12gr.modfetcher.util;
 
-import com.sokratis12gr.modfetcher.ModFetcher;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 import sx.blah.discord.Discord4J;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -13,7 +13,9 @@ import sx.blah.discord.util.RateLimitException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
+import java.util.*;
+
+import static com.sokratis12gr.modfetcher.ModFetcher.instance;
 
 public class Utilities {
 
@@ -134,8 +136,60 @@ public class Utilities {
      * @return String The message with the multi-lined code block format codes applied.
      */
     public static String makeMultiCodeBlock(String message) {
-
         return "```" + message + "```";
+    }
+
+    public static String makeMultiJavaCodeBlock(String message) {
+        return "```JAVA\n" + message + "```";
+    }
+
+    public static String makeMultiDiffCodeBlock(boolean isRemoved, String... lines) {
+        String text = "";
+
+        for (final String line : lines) {
+            if (isRemoved) {
+                text += "- " + line + SEPERATOR;
+            } else {
+                text += "+ " + line + SEPERATOR;
+            }
+        }
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeMultiDiffCodeBlock(String message) {
+        return "```DIFF\n" + message + "```";
+    }
+
+    public static String makeMultiHTMLCodeBlock(String message) {
+        return "```HTML\n" + message + "```";
+    }
+
+    public static String makeMultiMarkDownCodeBlock(String message) {
+        return "```MARKDOWN\n" + message + "```";
+    }
+
+    public static String makeErrorMessage(String... lines) {
+        String text = "";
+        for (final String line : lines) {
+            text += "- " + line + SEPERATOR;
+        }
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeErrorMessage(String message) {
+        return "```DIFF\n" + "- " + message + "```";
+    }
+
+    public static String makeSuccessMessage(String... lines) {
+        String text = "";
+        for (final String line : lines) {
+            text += "+ " + line + SEPERATOR;
+        }
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeSuccessMessage(String message) {
+        return "```DIFF\n" + "+ " + message + "```";
     }
 
     /**
@@ -146,23 +200,25 @@ public class Utilities {
      * @param message The message to send to the user.
      */
     public static void sendPrivateMessage(IUser user, String message) {
-
         try {
-
-            sendMessage(ModFetcher.instance.getOrCreatePMChannel(user), message);
+            sendMessage(instance.getOrCreatePMChannel(user), message);
         } catch (final Exception e) {
-
             e.printStackTrace();
         }
     }
 
     public static void sendPrivateMessage(IUser user, String message, EmbedObject object) {
-
         try {
-
-            sendMessage(ModFetcher.instance.getOrCreatePMChannel(user), message, object);
+            sendMessage(instance.getOrCreatePMChannel(user), message, object);
         } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void sendPrivateMessage(IUser user, EmbedObject object) {
+        try {
+            sendMessage(instance.getOrCreatePMChannel(user), object);
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -177,7 +233,11 @@ public class Utilities {
     public static void sendMessage(IChannel channel, String message) {
 
         try {
-            channel.sendMessage(message);
+            if (channel != channel.getGuild().getChannelByID("218315723473158146")) {
+                channel.sendMessage(message);
+            } else {
+                channel.setTypingStatus(true);
+            }
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
 
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
@@ -199,12 +259,46 @@ public class Utilities {
         }
 
         try {
+            if (channel != channel.getGuild().getChannelByID("218315723473158146")) {
+                channel.sendMessage(message, object, false);
+                Thread.sleep(1000);
+            } else {
+                channel.setTypingStatus(true);
+            }
+        } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
 
-            channel.sendMessage(message, object, false);
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendMessage(IChannel channel, EmbedObject object) {
+        try {
+            channel.sendMessage("", object, false);
             Thread.sleep(1000);
         } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
 
             e.printStackTrace();
         }
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map, boolean invert) {
+
+        List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+        Collections.sort(list, Comparator.comparing(Map.Entry::getValue));
+
+        if (invert)
+            list = Lists.reverse(list);
+
+        final Map<K, V> result = new LinkedHashMap<>();
+        for (final Map.Entry<K, V> entry : list)
+            result.put(entry.getKey(), entry.getValue());
+        return result;
+    }
+
+    public static <K, V> String mapToString(Map<K, V> map) {
+        String output = "";
+        for (Map.Entry<K, V> entry : map.entrySet())
+            output += entry.getKey().toString() + " - " + entry.getValue().toString() + SEPERATOR;
+        return output;
     }
 }
