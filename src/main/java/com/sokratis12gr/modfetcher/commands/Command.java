@@ -1,51 +1,39 @@
 package com.sokratis12gr.modfetcher.commands;
 
-import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
 
 public interface Command {
 
     /**
-     * Checks if a command is valid. If not, it will not be executed.
+     * Called when the command is executed. Commands will not be executed if they fail the
+     * {@link #isValidUsage(IMessage)} check.
      *
-     * @param message The message which contains all the command information.
-     *
-     * @return boolean Whether or not the command should execute.
-     */
-    default boolean isValidUsage(IMessage message) {
-
-        return true;
-    }
-
-    /**
-     * Processes a command once it has been confirmed to be valid. This is where a command is
-     * executed.
-     *
-     * @param message The message which contains all of the command information.
+     * @param message The context of the message received. Includes the guild, sender, message
+     *                contents, and more.
+     * @param params  The individual parameter messages. The first parameter is the string/name
+     *                of the command being used.
      */
     void processCommand(IMessage message, String[] params);
 
     /**
-     * Provides a description of what the command does.
+     * Provides a description for the command. This is used by the help command to tell people
+     * what the command does, and explains how to use it.
      *
-     * @return String A description of the command being registered.
+     * @return The description for the command.
      */
     String getDescription();
 
     /**
-     * Provides a description of how the command works. This is a in finer detail.
+     * Checks if the message is valid for the command. This is intended for use with player
+     * permissions, but can also be used to allow other misc checks.
      *
-     * @return String A description of how the command works.
+     * @param message The context of the message recieved. Includes the guild, sender, message
+     *                contents, and more.
+     *
+     * @return
      */
-    String getThoroughDescription();
+    default boolean isValidUsage(IMessage message) {
 
-    /**
-     * Can be called whenever the command fails. By default this is used for sending the in
-     * depth argument description when a command is not entered properly.
-     *
-     * @param message The message which contains all of the command information.
-     */
-    default void onFail(IMessage message) {
-        Utilities.sendPrivateMessage(message.getAuthor(), Utilities.makeMultiCodeBlock("The command failed!" + System.lineSeparator() + getThoroughDescription()));
+        return true;
     }
 }

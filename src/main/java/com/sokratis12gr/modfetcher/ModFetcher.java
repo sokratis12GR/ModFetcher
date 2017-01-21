@@ -13,7 +13,7 @@ import java.nio.file.Files;
 
 public class ModFetcher {
 
-    public static final String COMMAND_KEY = "$";
+    public static final String COMMAND_KEY = "/";
     public static IDiscordClient instance;
     public static final String TDTG_GUILD_ID = "218315723473158146";
 
@@ -30,15 +30,11 @@ public class ModFetcher {
         try {
             instance = new ClientBuilder().withToken(token_key).login();
             instance.getDispatcher().registerListener(new ModFetcher());
-            initHandlers();
+            instance.getDispatcher().registerListener(new CommandHandler());
+            instance.getDispatcher().registerListener(new ResourceHandler());
         } catch (final DiscordException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void initHandlers() {
-        CommandHandler.initCommands();
-        ResourceHandler.initTextures();
     }
 
     @EventSubscriber

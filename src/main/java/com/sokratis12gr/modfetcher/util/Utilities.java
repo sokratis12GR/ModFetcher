@@ -117,7 +117,6 @@ public class Utilities {
      * @return A string which has been split up.
      */
     public static String makeMultilineMessage(String... lines) {
-
         String text = "";
 
         for (final String line : lines)
@@ -125,6 +124,86 @@ public class Utilities {
 
         return text;
     }
+
+    public static String makeMultilineDiffMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + SEPERATOR;
+
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeMultilineDiffMessage(boolean isError, String... lines) {
+        String text = "";
+
+        for (final String line : lines) {
+            if (isError) {
+                text += "- " + line + SEPERATOR;
+            } else {
+                text += "+ " + line + SEPERATOR;
+            }
+        }
+
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeErrorMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines) {
+            text += "- " + line + SEPERATOR;
+        }
+
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeSuccessMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines) {
+            text += "+ " + line + SEPERATOR;
+        }
+
+        return "```DIFF\n" + text + "```";
+    }
+
+    public static String makeMultilineTypeMessage(String type, String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + SEPERATOR;
+
+        return "```" + type + "\n" + text + "```";
+    }
+
+    public static String makeMultilineJavaMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + SEPERATOR;
+
+        return "```JAVA\n" + text + "```";
+    }
+
+    public static String makeMultilineHTMLMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + SEPERATOR;
+
+        return "```HTML\n" + text + "```";
+    }
+
+    public static String makeMultilineMarkDownMessage(String... lines) {
+        String text = "";
+
+        for (final String line : lines)
+            text += line + SEPERATOR;
+
+        return "```MARKDOWN\n" + text + "```";
+    }
+
 
     /**
      * Makes a String message appear in a multi-lined code block. This only applies to chat.
@@ -134,8 +213,31 @@ public class Utilities {
      * @return String The message with the multi-lined code block format codes applied.
      */
     public static String makeMultiCodeBlock(String message) {
-
         return "```" + message + "```";
+    }
+
+    public static String makeJavaBlock(String message) {
+        return "```JAVA\n" + message + "```";
+    }
+
+    public static String makeHTMLBlock(String message) {
+        return "```HTML\n" + message + "```";
+    }
+
+    public static String makeMarkDownBlock(String message) {
+        return "```MARKDOWN\n" + message + "```";
+    }
+
+    public static String makeDiffBlock(String message) {
+        return "```DIFF\n" + message + "```";
+    }
+
+    public static String makeErrorMessage(String message) {
+        return "```DIFF\n" + "- " + message + "```";
+    }
+
+    public static String makeSuccessMessage(String message) {
+        return "```DIFF\n" + "+ " + message + "```";
     }
 
     /**

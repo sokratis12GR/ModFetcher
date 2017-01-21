@@ -23,9 +23,4 @@ public class CommandServer extends CommandUser {
     public String getDescription() {
         return "Provides information about the server that the command was executed at";
     }
-
-    @Override
-    public String getThoroughDescription() {
-        return this.getDescription();
-    }
 }

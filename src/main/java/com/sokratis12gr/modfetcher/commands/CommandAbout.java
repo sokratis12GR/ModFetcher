@@ -19,9 +19,4 @@ public class CommandAbout extends CommandUser {
     public String getDescription() {
         return "Shares a list of information about the bot, including system specs and authorship info.";
     }
-
-    @Override
-    public String getThoroughDescription() {
-        return "Provides information about the bot, and the hardware it is running on. There are no additional parameters.";
-    }
 }

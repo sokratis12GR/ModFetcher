@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,18 +21,20 @@ public class CommandCurse extends CommandUser {
 
     @Override
     public void processCommand(IMessage message, String[] args) {
+        final String usage = makeErrorMessage("Please provide a project, like ", "/curse armorplus");
+        final String errorMessage = makeErrorMessage("Sorry couldn't find a project with the name " + project);
         if (args.length > 1) {
             for (int index = 1; index < args.length; index++) {
                 project = args[index];
-                if (getDownloads() != null) {
+                if (!Objects.equals(getDownloads(), "") || getDescription() != null) {
                     getEmbed().withDescription("\n" + makeBold("Project: [" + project + "](" + "https://minecraft.curseforge.com/projects/" + project + ")") + "\n" + makeBold("Downloads") + ": " + getDownloads());
                     sendMessage(message.getChannel(), "" + message.getAuthor(), getEmbed().build());
                 } else {
-                    sendMessage(message.getChannel(), "Sorry couldn't find a project with the name " + project);
+                    sendMessage(message.getChannel(), errorMessage);
                 }
             }
         } else if (args.length == 1) {
-            sendMessage(message.getChannel(), "Please provide a project, like " + makeCodeBlock("$curse armorplus"));
+            sendMessage(message.getChannel(), usage);
         }
     }
 
@@ -40,7 +43,7 @@ public class CommandCurse extends CommandUser {
         URLConnection connection;
         String projectURL;
         if (project.contains("%!@#$^&*\"\'")) {
-            return null;
+            return "";
         } else {
             projectURL = format("https://minecraft.curseforge.com/projects/%s", project);
         }
@@ -62,17 +65,11 @@ public class CommandCurse extends CommandUser {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     @Override
     public String getDescription() {
         return format("Basic information about the %s project", project);
     }
-
-    @Override
-    public String getThoroughDescription() {
-        return this.getDescription();
-    }
-
 }

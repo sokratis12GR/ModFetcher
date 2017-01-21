@@ -17,9 +17,4 @@ public class CommandMemberCount extends CommandUser {
     public String getDescription() {
         return "Counts the amount of members in the room.";
     }
-
-    @Override
-    public String getThoroughDescription() {
-        return this.getDescription();
-    }
 }

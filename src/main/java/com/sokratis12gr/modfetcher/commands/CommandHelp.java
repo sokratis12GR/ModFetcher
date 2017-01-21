@@ -22,7 +22,7 @@ public class CommandHelp extends CommandUser {
                 final Command cmd = CommandHandler.getCommand(args[index]);
 
                 if (cmd != null && cmd.isValidUsage(message))
-                    descriptions += ModFetcher.COMMAND_KEY + args[index] + " - " + cmd.getThoroughDescription() + Utilities.SEPERATOR + Utilities.SEPERATOR;
+                    descriptions += ModFetcher.COMMAND_KEY + args[index] + " - " + cmd.getDescription() + Utilities.SEPERATOR + Utilities.SEPERATOR;
             }
         else
             for (final Entry<String, Command> command : CommandHandler.getCommands().entrySet())
@@ -36,10 +36,5 @@ public class CommandHelp extends CommandUser {
     @Override
     public String getDescription() {
         return "Lists all commands available to the user, along with a basic description of each command. You can run the command with other command names as additional arguments to get a more thorough description of the command.";
-    }
-
-    @Override
-    public String getThoroughDescription() {
-        return "Provides a list of all commands that the user can use, and their descriptions. The names of other commands can be added on to the end of the command to get a thorough explanation of those commands. Example: !help barcode";
     }
 }

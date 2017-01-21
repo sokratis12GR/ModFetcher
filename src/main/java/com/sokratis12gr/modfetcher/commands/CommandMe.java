@@ -24,9 +24,4 @@ public class CommandMe extends CommandUser {
     public String getDescription() {
         return "Provides information about the sender of the command";
     }
-
-    @Override
-    public String getThoroughDescription() {
-        return this.getDescription();
-    }
 }
