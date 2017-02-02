@@ -16,6 +16,7 @@ public class ModFetcher {
     public static final String COMMAND_KEY = "/";
     public static IDiscordClient instance;
     public static final String TDTG_GUILD_ID = "218315723473158146";
+    public static final String TDTPG_GUILD_ID = "275731168203243521";
 
     private static String token_key;
 

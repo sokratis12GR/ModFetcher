@@ -11,6 +11,6 @@ public abstract class CommandAdmin implements Command {
 
         final IUser user = message.getAuthor();
 
-        return TDTRoles.CORE_TEAM.hasRole(user) || TDTRoles.SEO.hasRole(user) || TDTRoles.CEO.hasRole(user);
+        return TDTRoles.CORE_TEAM.hasRole(user) || TDTRoles.SEO.hasRole(user) || TDTRoles.CEO.hasRole(user) || TDTRoles.CORE_TEAM_PUBLIC.hasRole(user);
     }
 }

@@ -5,12 +5,16 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
+import static com.sokratis12gr.modfetcher.ModFetcher.TDTPG_GUILD_ID;
+
 public enum TDTRoles {
 
     CEO("226044951035772929"),
     SEO("226044971214438400"),
     CORE_TEAM("226780931476815872"),
-    EVERYONE("218315723473158146");
+    EVERYONE("218315723473158146"),
+    CORE_TEAM_PUBLIC("275732061304913921", TDTPG_GUILD_ID),
+    EVERYONE_PUBLIC("276648215049404416", TDTPG_GUILD_ID);
 
     /**
      * The unique id for the role on a server.
