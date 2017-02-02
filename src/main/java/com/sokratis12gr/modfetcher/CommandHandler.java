@@ -28,6 +28,9 @@ public class CommandHandler {
         commands.put("calc", new CommandCalculate());
         commands.put("id", new CommandID());
         commands.put("write", new CommandWrite());
+        commands.put("mute", new CommandMute());
+        commands.put("unmute", new CommandUnMute());
+        commands.put("check", new CommandCheck());
     }
 
     /**

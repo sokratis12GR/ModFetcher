@@ -11,10 +11,10 @@ import static java.lang.Math.*;
 
 public class CommandCalculate extends CommandUser {
 
-    private String[] calcTypes = new String[]{"", "", "", "", "", ""};
-    private double[] numbers = new double[]{0, 0, 0, 0, 0, 0, 0};
+    private String[] calcTypes = new String[5];
+    private double[] numbers = new double[6];
     private Number calculated;
-    private Number[] calculations = new Number[]{0, 0, 0, 0, 0, 0, 0};
+    private Number[] calculations = new Number[6];
 
     @Override
     public void processCommand(IMessage message, String[] args) {
