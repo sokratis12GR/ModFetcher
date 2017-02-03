@@ -31,6 +31,7 @@ public class CommandHandler {
         commands.put("mute", new CommandMute());
         commands.put("unmute", new CommandUnMute());
         commands.put("check", new CommandCheck());
+        commands.put("new", new CommandAssignRoles());
     }
 
     /**
