@@ -42,11 +42,7 @@ public class CommandCurse extends CommandUser {
         String content;
         URLConnection connection;
         String projectURL;
-        if (project.contains("%!@#$^&*\"\'")) {
-            return "";
-        } else {
-            projectURL = format("https://minecraft.curseforge.com/projects/%s", project);
-        }
+        projectURL = project.contains("%!@#$^&*\"\'") ? "" : format("https://minecraft.curseforge.com/projects/%s", project);
         try {
             connection = new URL(projectURL).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());

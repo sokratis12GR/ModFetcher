@@ -90,7 +90,7 @@ public class CommandCalculate extends CommandUser {
     }
 
     private void doCalculations(boolean secondCalc, boolean thirdCalc, boolean fourthCalc, boolean fifthCalc, boolean sixthCalc) {
-        Number result = 0;
+        Number result;
         calculations[0] = calcSwitch(calcTypes[0], numbers[0], numbers[1]);
         result = calculations[0];
         if (secondCalc) {
