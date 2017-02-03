@@ -9,30 +9,28 @@ import sx.blah.discord.handle.obj.IUser;
  * ModFetcher created by sokratis12GR
  * - TheDragonTeam
  */
-public class CommandMute implements Command {
+public class CommandMute extends CommandAdmin {
 
     @Override
     public void processCommand(IMessage message, String[] args) {
-        if (args.length > 1) {
-            if (args[1] != null) {
-                try {
-                    IUser user;
-                    String id;
-                    IGuild guild = message.getGuild();
-                    if (args[1].contains("@")) {
-                        id = (args[1]).replace("<", "").replace("@", "").replace("!", "").replace(">", "");
-                        user = message.getGuild().getUserByID(id);
-                        Utilities.sendMessage(message.getChannel(), "ID: " + id);
-                        guild.setMuteUser(user, true);
-                    } else {
-                        id = args[1];
-                        user = message.getGuild().getUserByID(id);
-                        Utilities.sendMessage(message.getChannel(), "ID: " + id);
-                        guild.setMuteUser(user, true);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (args.length > 1 && args[1] != null) {
+            try {
+                IUser user;
+                String id;
+                IGuild guild = message.getGuild();
+                if (args[1].contains("@")) {
+                    id = (args[1]).replace("<", "").replace("@", "").replace("!", "").replace(">", "");
+                    user = message.getGuild().getUserByID(id);
+                    Utilities.sendMessage(message.getChannel(), "ID: " + id);
+                    guild.setMuteUser(user, true);
+                } else {
+                    id = args[1];
+                    user = message.getGuild().getUserByID(id);
+                    Utilities.sendMessage(message.getChannel(), "ID: " + id);
+                    guild.setMuteUser(user, true);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

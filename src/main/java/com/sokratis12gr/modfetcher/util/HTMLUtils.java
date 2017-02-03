@@ -19,10 +19,7 @@ public class HTMLUtils {
     private static final String[] H6 = new String[]{"<h6", "</h6>"};
 
     private static String writeElement(String[] element, boolean isClosed) {
-        if (isClosed) {
-            return element[1];
-        }
-        return (element[0] + ">");
+        return isClosed ? element[1] : element[0] + ">";
     }
 
     private static String writeElement(String[] element, String htmlAttributes) {

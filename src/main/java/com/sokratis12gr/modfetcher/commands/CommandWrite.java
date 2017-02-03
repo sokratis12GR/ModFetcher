@@ -13,11 +13,9 @@ public class CommandWrite implements Command {
     public void processCommand(IMessage message, String[] args) {
         String build = "";
         if (args.length > 1) {
-            if (args[1] != null) {
-                if (args.length > 2) {
-                    String comment = message.getContent().substring(args[0].length() + args[1].length() + 3)/*.replace("\\n", "\n").replace("\\t", "\t")*/;
-                    build = Utilities.makeMultiTypeMessage(args[1], comment);
-                }
+            if (args[1] != null && args.length > 2) {
+                String comment = message.getContent().substring(args[0].length() + args[1].length() + 3)/*.replace("\\n", "\n").replace("\\t", "\t")*/;
+                build = Utilities.makeMultiTypeMessage(args[1], comment);
             }
             Utilities.sendMessage(message.getChannel(), build);
         }

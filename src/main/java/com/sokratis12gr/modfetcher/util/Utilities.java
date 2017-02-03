@@ -23,7 +23,7 @@ public class Utilities {
 
     public static File downloadFile(String site) {
 
-        final File file = new File("Image" + random.nextInt() + ".png");
+        final File file = new File("file-" + random.nextInt() + ".png");
 
         try {
 
@@ -137,9 +137,8 @@ public class Utilities {
     public static String makeMultilineDiffMessage(boolean isError, String... lines) {
         String text = "";
 
-        for (final String line : lines) {
+        for (final String line : lines)
             text += isError ? "- " + line + SEPERATOR : "+ " + line + SEPERATOR;
-        }
 
         return "```DIFF\n" + text + "```";
     }
@@ -315,7 +314,6 @@ public class Utilities {
 
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
                 sendMessage(channel, "I tried to send a message, but it was too long.");
-
             else
                 e.printStackTrace();
         }
@@ -335,7 +333,6 @@ public class Utilities {
             channel.sendMessage(message, object, false);
             Thread.sleep(1000);
         } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
-
             e.printStackTrace();
         }
     }

@@ -79,9 +79,7 @@ public class CommandCalculate extends CommandUser {
                     }
                 }
             }
-        } else {
-            sendMessage(message.getChannel(), messageError);
-        }
+        } else sendMessage(message.getChannel(), messageError);
         sendMessage(message.getChannel(), description);
     }
 

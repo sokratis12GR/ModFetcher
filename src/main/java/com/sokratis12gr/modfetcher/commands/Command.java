@@ -30,7 +30,7 @@ public interface Command {
      * @param message The context of the message recieved. Includes the guild, sender, message
      *                contents, and more.
      *
-     * @return
+     * @return the validation of the command
      */
     default boolean isValidUsage(IMessage message) {
         return true;

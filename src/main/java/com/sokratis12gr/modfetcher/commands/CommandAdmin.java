@@ -9,7 +9,6 @@ public abstract class CommandAdmin implements Command {
 
     @Override
     public boolean isValidUsage(IMessage message) {
-
         return TDTUtils.userPermissions(message, ADMIN);
     }
 }
