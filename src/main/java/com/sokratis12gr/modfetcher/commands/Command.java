@@ -33,7 +33,6 @@ public interface Command {
      * @return
      */
     default boolean isValidUsage(IMessage message) {
-
         return true;
     }
 }

@@ -138,11 +138,7 @@ public class Utilities {
         String text = "";
 
         for (final String line : lines) {
-            if (isError) {
-                text += "- " + line + SEPERATOR;
-            } else {
-                text += "+ " + line + SEPERATOR;
-            }
+            text += isError ? "- " + line + SEPERATOR : "+ " + line + SEPERATOR;
         }
 
         return "```DIFF\n" + text + "```";
@@ -314,9 +310,7 @@ public class Utilities {
     public static void sendMessage(IChannel channel, String message) {
 
         try {
-            if (channel != ModFetcher.instance.getChannelByID("218315723473158146")) {
-                channel.sendMessage(message);
-            }
+            channel.sendMessage(message);
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
 
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
@@ -338,10 +332,8 @@ public class Utilities {
         }
 
         try {
-            if (channel != ModFetcher.instance.getChannelByID("218315723473158146")) {
-                channel.sendMessage(message, object, false);
-                Thread.sleep(1000);
-            }
+            channel.sendMessage(message, object, false);
+            Thread.sleep(1000);
         } catch (RateLimitException | DiscordException | MissingPermissionsException | InterruptedException e) {
 
             e.printStackTrace();

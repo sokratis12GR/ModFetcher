@@ -43,7 +43,6 @@ public enum TDTRoles {
      * @param roleId The Id of the role to represent.
      */
     TDTRoles(String roleId) {
-
         this(roleId, ModFetcher.TDTG_GUILD_ID);
     }
 
@@ -54,7 +53,6 @@ public enum TDTRoles {
      * @param guildId The Id of the guild the role is on.
      */
     TDTRoles(String roleId, String guildId) {
-
         this.roleId = roleId;
         this.guildId = guildId;
         this.guild = ModFetcher.instance.getGuildByID(guildId);
@@ -67,7 +65,6 @@ public enum TDTRoles {
      * @return The id of the role being represented.
      */
     public String getRoleId() {
-
         return this.roleId;
     }
 
@@ -77,7 +74,6 @@ public enum TDTRoles {
      * @return The id of the guild that the role exists on.
      */
     public String getGuildId() {
-
         return this.guildId;
     }
 
@@ -87,7 +83,6 @@ public enum TDTRoles {
      * @return The IRole representation of the role.
      */
     public IRole getRole() {
-
         return this.role;
     }
 
@@ -97,7 +92,6 @@ public enum TDTRoles {
      * @return The IGuild representation of the guild the role exists on.
      */
     public IGuild getGuild() {
-
         return this.guild;
     }
 
@@ -109,12 +103,6 @@ public enum TDTRoles {
      * @return Whether or not they have the role.
      */
     public boolean hasRole(IUser user) {
-
-        if (this.guild != null)
-            for (final IRole role : user.getRolesForGuild(this.guild))
-                if (role.getID().equals(this.roleId))
-                    return true;
-
-        return false;
+        return this.guild != null && user.getRolesForGuild(this.guild).stream().anyMatch(role -> role.getID().equals(this.roleId));
     }
 }
