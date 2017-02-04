@@ -312,9 +312,6 @@ public class Utilities {
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
                 sendMessage(channel, "I tried to send a message, but it was too long.");
-            else if (e instanceof RateLimitException) {
-                sendMessage(channel, message);
-            }
             e.printStackTrace();
         }
     }
