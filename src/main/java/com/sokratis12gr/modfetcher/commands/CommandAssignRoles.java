@@ -1,6 +1,7 @@
 package com.sokratis12gr.modfetcher.commands;
 
 import com.sokratis12gr.modfetcher.util.TDTRoles;
+import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
@@ -19,11 +20,13 @@ public class CommandAssignRoles extends CommandAdmin {
             }
         } catch (MissingPermissionsException | RateLimitException | DiscordException e) {
             e.printStackTrace();
+        } finally {
+            Utilities.sendMessage(message.getChannel(), "Assigned \"Member\" role to everyone");
         }
     }
 
     @Override
     public String getDescription() {
-        return "Provides information about the sender of the command";
+        return "Assigns the role \"Member\" to everyone i the discord guild";
     }
 }

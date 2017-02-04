@@ -235,7 +235,6 @@ public class Utilities {
         return "```" + type + "\n" + text + "```";
     }
 
-
     /**
      * Makes a String message appear in a multi-lined code block. This only applies to chat.
      *
@@ -311,11 +310,12 @@ public class Utilities {
         try {
             channel.sendMessage(message);
         } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
-
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
                 sendMessage(channel, "I tried to send a message, but it was too long.");
-            else
-                e.printStackTrace();
+            else if (e instanceof RateLimitException) {
+                sendMessage(channel, message);
+            }
+            e.printStackTrace();
         }
     }
 

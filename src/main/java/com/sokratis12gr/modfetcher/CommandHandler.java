@@ -1,11 +1,13 @@
 package com.sokratis12gr.modfetcher;
 
 import com.sokratis12gr.modfetcher.commands.*;
-import com.sokratis12gr.modfetcher.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.sokratis12gr.modfetcher.util.Utilities.sendMessage;
+import static com.sokratis12gr.modfetcher.util.Utilities.sendPrivateMessage;
 
 public class CommandHandler {
 
@@ -32,6 +34,7 @@ public class CommandHandler {
         commands.put("unmute", new CommandUnMute());
         commands.put("check", new CommandCheck());
         commands.put("new", new CommandAssignRoles());
+        commands.put("rename", new CommandGuildRename());
     }
 
     /**
@@ -64,13 +67,12 @@ public class CommandHandler {
         final Command command = commands.get(key);
 
         if (command == null) {
-            Utilities.sendMessage(message.getChannel(), "No command was found by that name. " + key);
+            sendMessage(message.getChannel(), "No command was found by that name. " + key);
             return;
         }
 
         if (!command.isValidUsage(message)) {
-
-            Utilities.sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");
+            sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");
             return;
         }
 
