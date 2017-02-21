@@ -2,6 +2,7 @@ package com.sokratis12gr.modfetcher.commands;
 
 import sx.blah.discord.handle.obj.IMessage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CommandCurse extends CommandUser {
                 project = args[index];
                 if (!Objects.equals(getDownloads(), "") || getDescription() != null) {
                     getEmbed().withDescription("\n" + makeBold("Project: [" + project + "](" + "https://minecraft.curseforge.com/projects/" + project + ")") + "\n" + makeBold("Downloads") + ": " + getDownloads());
-                    sendMessage(message.getChannel(), "" + message.getAuthor(), getEmbed().build());
+                    sendMessage(message.getChannel(), "", getEmbed().build());
                 } else {
                     sendMessage(message.getChannel(), errorMessage);
                 }
@@ -58,7 +59,7 @@ public class CommandCurse extends CommandUser {
                 matches.add(m.group(1));
             }
             return matches.get(2); //gets the downloads
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return "";

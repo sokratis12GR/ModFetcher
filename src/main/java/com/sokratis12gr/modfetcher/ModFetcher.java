@@ -20,22 +20,14 @@ public class ModFetcher {
 
     private static String token_key;
 
-    public static void main(String[] args) { // Main method
+    public static void main(String[] args) throws IOException, DiscordException { // Main method
         File token = new File("token.txt");
-        try {
-            token_key = Files.readAllLines(token.toPath(), StandardCharsets.UTF_8).get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        token_key = Files.readAllLines(token.toPath(), StandardCharsets.UTF_8).get(0);
 
-        try {
-            instance = new ClientBuilder().withToken(token_key).login();
-            instance.getDispatcher().registerListener(new ModFetcher());
-            instance.getDispatcher().registerListener(new CommandHandler());
-            instance.getDispatcher().registerListener(new ResourceHandler());
-        } catch (final DiscordException e) {
-            e.printStackTrace();
-        }
+        instance = new ClientBuilder().withToken(token_key).login();
+        instance.getDispatcher().registerListener(new ModFetcher());
+        instance.getDispatcher().registerListener(new CommandHandler());
+        instance.getDispatcher().registerListener(new ResourceHandler());
     }
 
     @EventSubscriber
